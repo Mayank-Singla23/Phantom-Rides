@@ -49,7 +49,7 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center">
         <motion.div whileHover={{ scale: 1.05 }} className="text-2xl font-bold">
           <Link to="/" className="bg-gradient-to-r from-blue-400 to-cyan-600 bg-clip-text text-transparent">
-            Phantom Motors
+            Phantom Rides
           </Link>
         </motion.div>
 
