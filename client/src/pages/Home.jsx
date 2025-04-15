@@ -191,7 +191,7 @@ const Home = () => {
       </div>
 
       {/* Categories Section */}
-      <div className="container mx-auto px-6 py-24 bg-black">
+      {/* <div className="container mx-auto px-6 py-24 bg-black">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -254,10 +254,10 @@ const Home = () => {
             </motion.div>
           ))}
         </div>
-      </div>
+      </div> */}
 
       {/* Footer Section */}
-      <footer className="bg-gray-950 text-gray-400">
+      {/* <footer className="bg-gray-950 text-gray-400">
         <div className="container mx-auto px-6 py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div>
@@ -278,7 +278,7 @@ const Home = () => {
             <p>&copy; {new Date().getFullYear()} Luxury Cars. All rights reserved.</p>
           </div>
         </div>
-      </footer>
+      </footer> */}
     </div>
   )
 }
