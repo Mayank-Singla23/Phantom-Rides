@@ -4,6 +4,25 @@ import User from '../schemas/user.js';
 
 const router = express.Router();
 
+// Middleware to verify admin status
+const verifyAdmin = async (req, res, next) => {
+    try {
+        const userId = req.headers.userid;
+        if (!userId) {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
+
+        const user = await User.findById(userId);
+        if (!user || !user.isAdmin) {
+            return res.status(403).json({ message: 'Access denied: Admin privileges required' });
+        }
+        next();
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 router.post('/users/login', async (req, res) => {
 
     try {
@@ -20,7 +39,8 @@ router.post('/users/login', async (req, res) => {
                     _id: user._id,
                     name: user.name,
                     email: user.email,
-                    wishlist: user.wishlist
+                    wishlist: user.wishlist,
+                    isAdmin: user.isAdmin
                 };
                 
                 res.status(200).json(userData);
@@ -65,10 +85,10 @@ router.post('/users/register', async (req, res) => {
     }
 });
 
-
-router.get('/users', async (req, res) => {
+// Admin-only route to get all users
+router.get('/users', verifyAdmin, async (req, res) => {
     try {
-        const users = await User.find();
+        const users = await User.find().select('-password');
         res.status(200).json(users);
     } catch (error) {
         console.error(error);
@@ -76,11 +96,17 @@ router.get('/users', async (req, res) => {
     }
 });
 
-router.put('/users/:id', async (req, res) => {
+// Admin-only route to update user
+router.put('/users/:id', verifyAdmin, async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, email, password } = req.body;
-        const updatedUser = await User.findByIdAndUpdate(id, { name, email, password }, { new: true });
+        const { name, email, isAdmin } = req.body;
+        const updatedUser = await User.findByIdAndUpdate(
+            id, 
+            { name, email, isAdmin }, 
+            { new: true }
+        ).select('-password');
+        
         if (!updatedUser) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -91,7 +117,8 @@ router.put('/users/:id', async (req, res) => {
     }
 });
 
-router.delete('/users/:id', async (req, res) => {
+// Admin-only route to delete user
+router.delete('/users/:id', verifyAdmin, async (req, res) => {
     try {
         const { id } = req.params;
         const deletedUser = await User.findByIdAndDelete(id);

@@ -5,6 +5,25 @@ import Car from '../schemas/cars.js';
 
 const router = express.Router();
 
+// Middleware to verify admin status
+const verifyAdmin = async (req, res, next) => {
+    try {
+        const userId = req.headers.userid;
+        if (!userId) {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
+
+        const user = await User.findById(userId);
+        if (!user || !user.isAdmin) {
+            return res.status(403).json({ message: 'Access denied: Admin privileges required' });
+        }
+        next();
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 router.get('/cars', async (req, res) => {
     try {
         const cars = await Car.find();
@@ -15,7 +34,8 @@ router.get('/cars', async (req, res) => {
     }
 });
 
-router.post('/cars', async (req, res) => {
+// Admin-only route to add new car
+router.post('/cars', verifyAdmin, async (req, res) => {
     try {
         const { name, model, year, price, image } = req.body;
         const newCar = new Car({ name, model, year, price, image });
@@ -27,7 +47,8 @@ router.post('/cars', async (req, res) => {
     }
 });
 
-router.put('/cars/:id', async (req, res) => {
+// Admin-only route to update car
+router.put('/cars/:id', verifyAdmin, async (req, res) => {
     try {
         const { id } = req.params;
         const { name, model, year, price, image } = req.body;
@@ -42,7 +63,8 @@ router.put('/cars/:id', async (req, res) => {
     }
 });
 
-router.delete('/cars/:id', async (req, res) => {
+// Admin-only route to delete car
+router.delete('/cars/:id', verifyAdmin, async (req, res) => {
     try {
         const { id } = req.params;
         const deletedCar = await Car.findByIdAndDelete(id);

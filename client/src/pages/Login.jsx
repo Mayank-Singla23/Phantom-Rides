@@ -4,9 +4,11 @@ import { useState } from "react"
 import toast from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
+import { useAuth } from "../context/AuthContext"
 
 const Login = () => {
   const navigate = useNavigate()
+  const { login } = useAuth()
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -24,7 +26,9 @@ const Login = () => {
       })
       const data = await response.json()
       if (response.ok) {
-        localStorage.setItem("user", JSON.stringify(data))
+        // Update the auth context (this will also update localStorage)
+        login(data)
+        
         toast.success("Login successful!")
         navigate("/cars")
       } else {
