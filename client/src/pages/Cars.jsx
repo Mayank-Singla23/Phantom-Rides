@@ -27,6 +27,7 @@ const Cars = () => {
   const [fullscreenView, setFullscreenView] = useState(null)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
+  const currentUser = JSON.parse(localStorage.getItem("user"))
 
   useEffect(() => {
     fetchCars()
@@ -69,15 +70,14 @@ const Cars = () => {
   }
 
   const handleLike = async (carId) => {
-    const user = JSON.parse(localStorage.getItem("user"))
-    if (!user) {
+    if (!currentUser) {
       toast.error("Please login first")
       return
     }
 
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/api/cars/cars/${carId}/like`, {
-        userId: user._id,
+        userId: currentUser._id,
       })
       fetchCars()
       toast.success("Car liked successfully!")
@@ -107,9 +107,6 @@ const Cars = () => {
     if (!fullscreenView || isAnimating) return
 
     setIsAnimating(true)
-    // For this example, we're just using a single image per car
-    // In a real app, you might have multiple images per car
-    // This is just to demonstrate the navigation UI
     setCurrentImageIndex((prev) => {
       if (direction === "next") {
         return prev === 0 ? 0 : prev
@@ -252,9 +249,16 @@ const Cars = () => {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={() => handleLike(car._id)}
-                        className="flex items-center gap-1 text-cyan-500"
+                        className="flex items-center gap-1"
                       >
-                        <Heart className={car.likes?.length ? "fill-current" : ""} size={18} />
+                        <Heart
+                          size={18}
+                          className={
+                            currentUser && car.likes.includes(currentUser._id)
+                              ? "fill-current text-cyan-500"
+                              : "text-cyan-500"
+                          }
+                        />
                         <span>{car.likes?.length || 0}</span>
                       </motion.button>
                       <motion.button
@@ -442,7 +446,11 @@ const Cars = () => {
                     </div>
                     <div className="bg-black/50 px-4 py-2 rounded-lg flex items-center gap-2">
                       <Heart
-                        className={fullscreenView.likes?.length ? "fill-current text-cyan-500" : "text-cyan-500"}
+                        className={
+                          currentUser && fullscreenView.likes.includes(currentUser._id)
+                            ? "fill-current text-cyan-500"
+                            : "text-cyan-500"
+                        }
                         size={18}
                       />
                       <span>{fullscreenView.likes?.length || 0} likes</span>
