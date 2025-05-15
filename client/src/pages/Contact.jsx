@@ -62,19 +62,19 @@ const Contact = () => {
               <h3 className="text-xl font-semibold mb-6 text-white">Our Location</h3>
               <div className="h-48 mb-6 rounded-lg overflow-hidden relative">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 z-10" />
-                <img src="/luxury-auto-locator.png" alt="Location map" className="w-full h-full object-cover" />
+                <img src="https://cache.careers360.mobi/media/schools/staticmap/2024/2/24/3866.png" alt="Location map" className="w-full h-full object-cover" />
               </div>
               <p className="mb-6 text-gray-300">
-                123 Car Street
+                570, Phantom Rides
                 <br />
-                Automotive City, AC 12345
+                Anand Vihar, Mohali Chandigarh
               </p>
               <div className="space-y-3 text-gray-300">
                 <p className="flex items-center">
-                  <span className="mr-2">📞</span> (555) 123-4567
+                  <span className="mr-2">📞</span> +91 91669-38016
                 </p>
                 <p className="flex items-center">
-                  <span className="mr-2">✉️</span> info@autozone.com
+                  <span className="mr-2">✉️</span> ms8031139@gmail.com
                 </p>
               </div>
             </motion.div>
