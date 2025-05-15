@@ -56,7 +56,7 @@ const About = () => {
             className="relative h-[400px] rounded-xl overflow-hidden shadow-2xl shadow-blue-900/30 border border-blue-900/20 transform transition-all duration-500 hover:translate-y-[-15px] hover:rotate-2 perspective-1000"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 z-10" />
-            <img src="/purple-luxury-showroom.png" alt="Luxury car showroom" className="w-full h-full object-cover" />
+            <img src="https://cdn.freepixel.com/preview/free-photos-luxury-car-showroom---a-collection-of-luxury-cars-parked-inside-an-indoor-garage-the-cars-are-lined-preview-1004212765.jpg" alt="Luxury car showroom" className="w-full h-full object-cover" />
           </motion.div>
         </div>
       </div>
