@@ -51,18 +51,18 @@ const Admin = () => {
     try {
       // Fetch users - Fix the header name to lowercase userid
       const usersResponse = await axios.get(
-        ${import.meta.env.VITE_API_URL}/api/user/users,
+        `${import.meta.env.VITE_API_URL}/api/user/users`,
         { headers: { userid: currentUser._id } }
       );
       setUsers(usersResponse.data);
 
       // Fetch cars
-      const carsResponse = await axios.get(${import.meta.env.VITE_API_URL}/api/cars/cars);
+      const carsResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/cars/cars`);
       setCars(carsResponse.data);
 
       // Fetch test rides
       const testRidesResponse = await axios.get(
-        ${import.meta.env.VITE_API_URL}/api/test-rides/all,
+        `${import.meta.env.VITE_API_URL}/api/test-rides/all`,
         { headers: { userid: currentUser._id } }
       );
       setTestRides(testRidesResponse.data);
@@ -79,14 +79,14 @@ const Admin = () => {
     try {
       if (editingId) {
         await axios.put(
-          ${import.meta.env.VITE_API_URL}/api/cars/cars/${editingId},
+          `${import.meta.env.VITE_API_URL}/api/cars/cars/${editingId}`,
           carFormData,
           { headers: { userid: currentUser._id } } // Fix to lowercase userid
         );
         toast.success("Car updated successfully");
       } else {
         await axios.post(
-          ${import.meta.env.VITE_API_URL}/api/cars/cars,
+          `${import.meta.env.VITE_API_URL}/api/cars/cars`,
           carFormData,
           { headers: { userid: currentUser._id } } // Fix to lowercase userid
         );
@@ -105,7 +105,7 @@ const Admin = () => {
     if (window.confirm("Are you sure you want to delete this car?")) {
       try {
         await axios.delete(
-          ${import.meta.env.VITE_API_URL}/api/cars/cars/${id},
+          `${import.meta.env.VITE_API_URL}/api/cars/cars/${id}`,
           { headers: { userid: currentUser._id } } // Fix to lowercase userid
         );
         toast.success("Car deleted successfully");
@@ -130,7 +130,7 @@ const Admin = () => {
     e.preventDefault();
     try {
       await axios.put(
-        ${import.meta.env.VITE_API_URL}/api/user/users/${editingId},
+        `${import.meta.env.VITE_API_URL}/api/user/users/${editingId}`,
         userFormData,
         { headers: { userid: currentUser._id } } // Fix to lowercase userid
       );
@@ -153,7 +153,7 @@ const Admin = () => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
         await axios.delete(
-          ${import.meta.env.VITE_API_URL}/api/user/users/${id},
+          `${import.meta.env.VITE_API_URL}/api/user/users/${id}`,
           { headers: { userid: currentUser._id } } // Fix to lowercase userid
         );
         toast.success("User deleted successfully");
@@ -213,7 +213,7 @@ const Admin = () => {
   const handleRideUpdate = async () => {
     try {
       const response = await axios.put(
-        ${import.meta.env.VITE_API_URL}/api/test-rides/${selectedRide._id},
+        `${import.meta.env.VITE_API_URL}/api/test-rides/${selectedRide._id}`,
         rideUpdateData,
         { headers: { userid: currentUser._id } }
       );
@@ -328,7 +328,7 @@ const Admin = () => {
                           <td className="px-6 py-4 whitespace-nowrap">{user.name}</td>
                           <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <span className={px-2 py-1 rounded text-xs ${user.isAdmin ? "bg-cyan-800 text-cyan-200" : "bg-gray-700 text-gray-300"}}>
+                            <span className={`px-2 py-1 rounded text-xs ${user.isAdmin ? "bg-cyan-800 text-cyan-200" : "bg-gray-700 text-gray-300"}`}>
                               {user.isAdmin ? "Admin" : "User"}
                             </span>
                           </td>
